@@ -9,4 +9,5 @@ The bot is also thinking during the opponent turn to save time, using <b>asynchr
    - "beginner"
    - "intermediate" (set as default)
    - "expert"
+4) Enter in the terminal: "npm install"
 3) Enter in the terminal: "node main.js"
