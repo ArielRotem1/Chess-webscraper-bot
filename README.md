@@ -1,7 +1,7 @@
 # Chess-webscraper-bot
 Chess bot that plays against real players at chess.com.<br>
-Using minimax algorithm + alpha beta pruning + states duplication handling.<br>
-The bot is also thinking during the opponent turn to save time, using asynchronous programming.
+Using <b>minimax algorithm + alpha beta pruning + states duplication handling</b>.<br>
+The bot is also thinking during the opponent turn to save time, using <b>asynchronous programming</b>.
 
 <b>Instructions to run:</b>
 1) Download the repo
