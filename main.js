@@ -1,5 +1,8 @@
+require("dotenv").config();
 const { webscraper } = require("./webscraper");
 const { chess } = require("./chess");
+
+const DEBUG = process.env.DEBUG === "true";
 
 const gameDifficulty = "intermediate"; //"beginner", "intermediate", "expert"
 
@@ -15,15 +18,16 @@ async function main(){
 	console.log("***result***: " + result);
 	console.log("***myColor***: " + chess.myColor);
 
+    //close the window on finish
 	//await webscraper.end();
 }
 
-async function programWaitFor(x){
+async function programWaitFor(xSeconds){
     await new Promise((resolve, reject) =>{
         setTimeout(() => {
             resolve();
-        }, x)
-    }) 
+        }, xSeconds);
+    });
 }
 
 async function game(){
@@ -59,7 +63,7 @@ async function game(){
                     if(!isNobodyHasDoneMove) break;
                 }
 
-                console.log("curr color: " + chess.myColor);
+                if(DEBUG) console.log("curr color: " + chess.myColor);
 
                 let hasChangedColor = false;
 
@@ -77,7 +81,7 @@ async function game(){
                 }
 
 
-                console.log("after color: " + chess.myColor);
+                if(DEBUG) console.log("after color: " + chess.myColor);
 
                 if(hasChangedColor) grid = await webscraper.createGrid();
                 
@@ -95,8 +99,8 @@ async function game(){
                 }
             }
 
-            console.log("chess.opChosenActionIndex: " + chess.opChosenActionIndex);
-            console.log("chess.shouldSimulate: " + chess.shouldSimulate);
+            if(DEBUG) console.log("chess.opChosenActionIndex: " + chess.opChosenActionIndex);
+            if(DEBUG) console.log("chess.shouldSimulate: " + chess.shouldSimulate);
 
             if(chess.shouldSimulate == true){
                 chess.opChosenActionIndex = -1;
@@ -137,7 +141,7 @@ async function game(){
                 console.log("my action: ");
                 console.log(action);
 
-                if(action.bestScore == -1000){
+                if(action.bestScore == -1000 || action.bestAction == undefined){
                     //I will lose the game
                     //so Resign from the game
                     await webscraper.resign();

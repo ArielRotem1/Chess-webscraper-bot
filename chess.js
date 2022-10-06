@@ -1,7 +1,10 @@
+require("dotenv").config();
 const length = 8;
 var DEPTH = 4;
 
-var chess = {
+const DEBUG = process.env.DEBUG === "true";
+
+const chess = {
 
 	myColor: undefined,
 	grid: undefined,
@@ -26,7 +29,7 @@ var chess = {
     shouldSimulate: true,
 
     setOpChosenActionIndex(){
-        console.log("in setOpChosenActionIndex");
+        if(DEBUG) console.log("in setOpChosenActionIndex");
         for(let i in this.opActions){
             let action = this.opActions[i];
             //check if the piece has left his position and is now in the new position
@@ -38,7 +41,7 @@ var chess = {
             }
         }
 
-        console.log("Op has done unkown action");
+        if(DEBUG) console.log("Op has done unkown action");
     },
 
     async opTurn(){
@@ -52,7 +55,9 @@ var chess = {
 
         let bestActionForEveryOpAction = [];
 
-        console.log("numberOfActions = " + allActions.length);
+        console.log();
+        console.log("THINKING ALSO IN THE OPPONENT TURN")
+        console.log("numberOfActions to compute = " + allActions.length);
 
         if(allActions.length == 0){
             //op is in checkmate
@@ -61,33 +66,35 @@ var chess = {
         }
 
         while(DEPTH <= 20){
-            console.log("DEPTH: " + DEPTH);
+            console.log("searching DEPTH: " + DEPTH);
             for(let i in allActions){
-                await new Promise((resolve, reject) =>{
-                    setTimeout(() => {
-                        console.log("in opTurn loop promise");
-                        resolve();
-                    }, 250)
+                await new Promise((resolve, reject) => {
+                    setTimeout(() => { resolve() }, 50); 
                 });
+
                 console.log("action number: " + i + " / " + allActions.length);
 
                 //op has took action and it is not leading to this path
                 if(this.opChosenActionIndex != -1){
                     //I still has not simulated this action then I need to do it now
-                    console.log("i: " + i);
-                    console.log("this.opChosenActionIndex: " + this.opChosenActionIndex);
+                    if(DEBUG) console.log("i: " + i);
+                    if(DEBUG) console.log("this.opChosenActionIndex: " + this.opChosenActionIndex);
                     if(this.opChosenActionIndex - i >= 0 && DEPTH == 4){
                         this.shouldSimulate = true;
-                        console.log("this.opChosenActionIndex >= i");
+                        if(DEBUG) console.log("this.opChosenActionIndex >= i");
                         return;
                     }
                     //I have simulated this action already and I have the answer
                     else{
-                        console.log("i > this.opChosenActionIndex");
-                        console.log("bestActionForEveryOpAction[this.opChosenActionIndex]: " + bestActionForEveryOpAction[this.opChosenActionIndex])
+                        if(DEBUG) console.log("i > this.opChosenActionIndex");
+                        if(DEBUG) console.log("bestActionForEveryOpAction[this.opChosenActionIndex]: " + bestActionForEveryOpAction[this.opChosenActionIndex])
                         this.shouldSimulate = bestActionForEveryOpAction[this.opChosenActionIndex];
                         return;
                     }
+                }
+
+                if(this.shouldSimulate == true){
+                    return;
                 }
 
                 let action = allActions[i];
@@ -120,7 +127,7 @@ var chess = {
                 if(result != "stop") bestActionForEveryOpAction[i] = result;
                 
                 if(i == this.opChosenActionIndex){
-                    console.log("i == this.opChosenActionIndex");
+                    if(DEBUG) console.log("i == this.opChosenActionIndex");
                     this.shouldSimulate = bestActionForEveryOpAction[this.opChosenActionIndex];
                     return;
                 }
@@ -138,12 +145,9 @@ var chess = {
         DEPTH = 4;
         //this.moneStatesEnconterd = 0;
 
-        console.log("in getAction");
+        if(DEBUG) console.log("in getAction");
 
         let result = await this.solve(DEPTH, -Infinity, Infinity, true, false, 0);
-
-        console.log("result: ");
-        console.log(result);
 
         //console.log("moneStatesEnconterd: " + this.moneStatesEnconterd);
 
@@ -153,12 +157,9 @@ var chess = {
 	async solve(depth, alpha, beta, maximazingPlayer, inCheck, stateScore){
 
         //stop the program in certain depth for a while to check if op has done move already
-        if(DEPTH >= 6 && depth == 5){
-            await new Promise((resolve, reject) =>{
-                setTimeout(() => {
-                    console.log("in solve promise");
-                    resolve();
-                }, 50);
+        if(depth == 5){
+            await new Promise((resolve, reject) => {
+                setTimeout(() => { resolve() }, 20); 
             });
         }
 
@@ -1316,23 +1317,7 @@ var chess = {
         let scoreOfGrid = this.states.get(serializedState);
 
         return scoreOfGrid;
-    },
-
-	evalGrid(){
-		let score = 0;
-
-		for(let i = 0; i < length; i++){
-			for(let j = 0; j < length; j++){
-                let cellType = this.grid[i][j];
-				if(cellType != 0 && cellType != -6 && cellType != 6){
-					let key = "" + cellType;
-					score += this.evalDict[key];
-                }
-			}
-		}
-
-		return score;
-	}
+    }
 }
 
 exports.chess = chess;

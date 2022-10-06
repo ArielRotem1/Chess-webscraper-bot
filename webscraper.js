@@ -1,10 +1,13 @@
+require("dotenv").config();
 const puppeteer = require("puppeteer");
 const chess = require("./chess");
+
+const DEBUG = process.env.DEBUG === "true";
 
 const width = 1200;
 const height = 700;
 
-let webscraper = {
+const webscraper = {
 
 	browser: undefined,
 	page: undefined,
@@ -23,7 +26,7 @@ let webscraper = {
 		await this.wait(1000);
 
 		//play button click
-		let playButton = await page.$("#board-layout-sidebar > div > div.tab-container-component.tab-content-component > div > div.new-game-index-main > div.new-game-index-play > div > button")
+		let playButton = await page.$("#board-layout-sidebar > div > div.tab-container-component.tab-content-component > div > div.new-game-index-content > div > button");
 		await playButton.click();
 		await this.wait(100);
 
@@ -93,12 +96,12 @@ let webscraper = {
 
 	async getMyColor(){
 		let isMyTurn = await this.whosTurn();
-        console.log("isMyTurn: " + isMyTurn);
+        if(DEBUG) console.log("isMyTurn: " + isMyTurn);
 
         if(isMyTurn) this.myColor = "w";
         else this.myColor = "b";
 
-        console.log("this.myColor: " + this.myColor)
+        if(DEBUG) console.log("this.myColor: " + this.myColor)
 
 		return this.myColor;
 	},
