@@ -904,7 +904,6 @@ const chess = {
 	isAfterMoveKingIsInCheck(move, type, me){
 		let typeInNextPlace = this.grid[move.endingPos.i][move.endingPos.j];
 		this.grid[move.startingPos.i][move.startingPos.j] = 0;
-        
 
         if(type == 1 && move.endingPos.i == 0){
             //if this is soldier and he is in the last row in the grid then he will
@@ -980,134 +979,102 @@ const chess = {
 			if(this.canCheckHere(i + 1, j + 2, false)) return true;
 		}
 		else if(type == -3){
-			for(let ii = i - 1, jj = j - 1; ii > -1 && jj > -1; ii--, jj--){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i - 1, jj = j - 1; ii > -1 && jj > -1 &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii--, jj--){
+                if(this.grid[ii][jj] == 6) return true;
+                if(this.isMyPiece(ii, jj)) break;
 			}
 
-			for(let ii = i + 1, jj = j + 1; ii < length && jj < length; ii++, jj++){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i + 1, jj = j + 1; ii < length && jj < length &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii++, jj++){
+                if(this.grid[ii][jj] == 6) return true;
+                if(this.isMyPiece(ii, jj)) break;
 			}
 
-			for(let ii = i + 1, jj = j - 1; ii < length && jj > -1; ii++, jj--){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i + 1, jj = j - 1; ii < length && jj > -1 &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii++, jj--){
+				if(this.grid[ii][jj] == 6) return true;
+				if(this.isMyPiece(ii, jj)) break;
 			}
 
-			for(let ii = i - 1, jj = j + 1; ii > -1 && jj < length; ii--, jj++){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i - 1, jj = j + 1; ii > -1 && jj < length &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii--, jj++){
+                if(this.grid[ii][jj] == 6) return true;
+                if(this.isMyPiece(ii, jj)) break;
 			}
 		}
 		else if(type == -4){
-			for(let ii = i - 1; ii > -1; ii--){
-				if(this.inRange(ii, j) && !this.isOpponentPiece(ii, j)){
-					if(this.grid[ii][j] == 6) return true;
-					if(this.isMyPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i - 1; ii > -1 && 
+                this.inRange(ii, j) && !this.isOpponentPiece(ii, j); ii--){
+                if(this.grid[ii][j] == 6) return true;
+                if(this.isMyPiece(ii, j)) break;
 			}
 
-			for(let ii = i + 1; ii < length; ii++){
-				if(this.inRange(ii, j) && !this.isOpponentPiece(ii, j)){
-					if(this.grid[ii, j] == 6) return true;
-					if(this.isMyPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i + 1; ii < length &&
+                this.inRange(ii, j) && !this.isOpponentPiece(ii, j); ii++){
+                if(this.grid[ii][j] == 6) return true;
+                if(this.isMyPiece(ii, j)) break;
 			}
 
-			for(let jj = j - 1; jj > -1; jj--){
-				if(this.inRange(i, jj) && !this.isOpponentPiece(i, jj)){
-					if(this.grid[i][jj] == 6) return true;
-					if(this.isMyPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j - 1; jj > -1 &&
+                this.inRange(i, jj) && !this.isOpponentPiece(i, jj); jj--){
+                if(this.grid[i][jj] == 6) return true;
+                if(this.isMyPiece(i, jj)) break;
 			}
 
-			for(let jj = j + 1; jj < length; jj++){
-				if(this.inRange(i, jj) && !this.isOpponentPiece(i, jj)){
-					if(this.grid[i][jj] == 6) return true;
-					if(this.isMyPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j + 1; jj < length &&
+                this.inRange(i, jj) && !this.isOpponentPiece(i, jj); jj++){
+                if(this.grid[i][jj] == 6) return true;
+                if(this.isMyPiece(i, jj)) break;
 			}
 		}
 		else if(type == -5){
-			for(let ii = i - 1; ii > -1; ii--){
-				if(this.inRange(ii, j) && !this.isOpponentPiece(ii, j)){
-					if(this.grid[ii][j] == 6) return true;
-					if(this.isMyPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i - 1; ii > -1 &&
+                this.inRange(ii, j) && !this.isOpponentPiece(ii, j); ii--){
+                if(this.grid[ii][j] == 6) return true;
+                if(this.isMyPiece(ii, j)) break;
 			}
 
-			for(let ii = i + 1; ii < length; ii++){
-				if(this.inRange(ii, j) && !this.isOpponentPiece(ii, j)){
-					if(this.grid[ii][j] == 6) return true;
-					if(this.isMyPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i + 1; ii < length &&
+                 this.inRange(ii, j) && !this.isOpponentPiece(ii, j); ii++){
+                if(this.grid[ii][j] == 6) return true;
+                if(this.isMyPiece(ii, j)) break;
 			}
 
-			for(let jj = j - 1; jj > -1; jj--){
-				if(this.inRange(i, jj) && !this.isOpponentPiece(i, jj)){
-					if(this.grid[i][jj] == 6) return true;
-					if(this.isMyPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j - 1; jj > -1 &&
+                this.inRange(i, jj) && !this.isOpponentPiece(i, jj); jj--){
+                if(this.grid[i][jj] == 6) return true;
+                if(this.isMyPiece(i, jj)) break;
 			}
 
-			for(let jj = j + 1; jj < length; jj++){
-				if(this.inRange(i, jj) && !this.isOpponentPiece(i, jj)){
-					if(this.grid[i][jj] == 6) return true;
-					if(this.isMyPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j + 1; jj < length &&
+                this.inRange(i, jj) && !this.isOpponentPiece(i, jj); jj++){
+                if(this.grid[i][jj] == 6) return true;
+                if(this.isMyPiece(i, jj)) break;
 			}
 
-			for(let ii = i - 1, jj = j - 1; ii > -1 && jj > -1; ii--, jj--){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i - 1, jj = j - 1; ii > -1 && jj > -1 &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii--, jj--){
+                if(this.grid[ii][jj] == 6) return true;
+                if(this.isMyPiece(ii, jj)) break;
 			}
 
-			for(let ii = i + 1, jj = j + 1; ii < length && jj < length; ii++, jj++){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i + 1, jj = j + 1; ii < length && jj < length &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii++, jj++){
+                if(this.grid[ii][jj] == 6) return true;
+                if(this.isMyPiece(ii, jj)) break;
 			}
 
-			for(let ii = i + 1, jj = j - 1; ii < length && jj > -1; ii++, jj--){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i + 1, jj = j - 1; ii < length && jj > -1 &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii++, jj--){
+                if(this.grid[ii][jj] == 6) return true;
+                if(this.isMyPiece(ii, jj)) break;
 			}
 
-			for(let ii = i - 1, jj = j + 1; ii > -1 && jj < length; ii--, jj++){
-				if(this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj)){
-					if(this.grid[ii][jj] == 6) return true;
-					if(this.isMyPiece(ii, jj)) break;
-				}
-				else break;
+			for(let ii = i - 1, jj = j + 1; ii > -1 && jj < length &&
+                this.inRange(ii, jj) && !this.isOpponentPiece(ii, jj); ii--, jj++){
+                if(this.grid[ii][jj] == 6) return true;
+                if(this.isMyPiece(ii, jj)) break;
 			}
 		}
 		else if(type == -6){
@@ -1181,69 +1148,53 @@ const chess = {
 			}
 		}
 		else if(type == 4){
-			for(let ii = i - 1; ii > -1; ii--){
-				if(this.inRange(ii, j) && !this.isMyPiece(ii, j)){
-					if(this.grid[ii][j] == -6) return true;
-					if(this.isOpponentPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i - 1; ii > -1 &&
+                this.inRange(ii, j) && !this.isMyPiece(ii, j); ii--){
+                if(this.grid[ii][j] == -6) return true;
+                if(this.isOpponentPiece(ii, j)) break;
 			}
 
-			for(let ii = i + 1; ii < length; ii++){
-				if(this.inRange(ii, j) && !this.isMyPiece(ii, j)){
-					if(this.grid[ii][j] == -6) return true;
-					if(this.isOpponentPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i + 1; ii < length &&
+                this.inRange(ii, j) && !this.isMyPiece(ii, j); ii++){
+                if(this.grid[ii][j] == -6) return true;
+                if(this.isOpponentPiece(ii, j)) break;
 			}
 
-			for(let jj = j - 1; jj > -1; jj--){
-				if(this.inRange(i, jj) && !this.isMyPiece(i, jj)){
-					if(this.grid[i][jj] == -6) return true;
-					if(this.isOpponentPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j - 1; jj > -1 &&
+                this.inRange(i, jj) && !this.isMyPiece(i, jj); jj--){
+                if(this.grid[i][jj] == -6) return true;
+                if(this.isOpponentPiece(i, jj)) break;
 			}
 
-			for(let jj = j + 1; jj < length; jj++){
-				if(this.inRange(i, jj) && !this.isMyPiece(i, jj)){
-					if(this.grid[i][jj] == -6) return true;
-					if(this.isOpponentPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j + 1; jj < length &&
+                this.inRange(i, jj) && !this.isMyPiece(i, jj); jj++){
+                if(this.grid[i][jj] == -6) return true;
+                if(this.isOpponentPiece(i, jj)) break;
 			}
 		}
 		else if(type == 5){
-			for(let ii = i - 1; ii > -1; ii--){
-				if(this.inRange(ii, j) && !this.isMyPiece(ii, j)){
-					if(this.grid[ii][j] == -6) return true;
-					if(this.isOpponentPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i - 1; ii > -1 &&
+                this.inRange(ii, j) && !this.isMyPiece(ii, j); ii--){
+                if(this.grid[ii][j] == -6) return true;
+                if(this.isOpponentPiece(ii, j)) break;
 			}
 
-			for(let ii = i + 1; ii < length; ii++){
-				if(this.inRange(ii, j) && !this.isMyPiece(ii, j)){
-					if(this.grid[ii][j] == -6) return true;
-					if(this.isOpponentPiece(ii, j)) break;
-				}
-				else break;
+			for(let ii = i + 1; ii < length &&
+                this.inRange(ii, j) && !this.isMyPiece(ii, j); ii++){
+                if(this.grid[ii][j] == -6) return true;
+                if(this.isOpponentPiece(ii, j)) break;
 			}
 
-			for(let jj = j - 1; jj > -1; jj--){
-				if(this.inRange(i, jj) && !this.isMyPiece(i, jj)){
-					if(this.grid[i][jj] == -6) return true;
-					if(this.isOpponentPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j - 1; jj > -1 &&
+                this.inRange(i, jj) && !this.isMyPiece(i, jj); jj--){
+                if(this.grid[i][jj] == -6) return true;
+                if(this.isOpponentPiece(i, jj)) break;
 			}
 
-			for(let jj = j + 1; jj < length; jj++){
-				if(this.inRange(i, jj) && !this.isMyPiece(i, jj)){
-					if(this.grid[i][jj] == -6) return true;
-					if(this.isOpponentPiece(i, jj)) break;
-				}
-				else break;
+			for(let jj = j + 1; jj < length &&
+                this.inRange(i, jj) && !this.isMyPiece(i, jj); jj++){
+                if(this.grid[i][jj] == -6) return true;
+                if(this.isOpponentPiece(i, jj)) break;
 			}
 
 			for(let ii = i - 1, jj = j - 1; ii > -1 && jj > -1 &&
